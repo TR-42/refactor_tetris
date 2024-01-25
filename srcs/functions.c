@@ -25,21 +25,21 @@ void FunctionDS(Struct shape){
     free(shape.array);
 }
 
-int FunctionCP(Struct shape){
+bool FunctionCP(Struct shape){
 	char **array = shape.array;
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
 		for(j = 0; j < shape.width ;j++){
-			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
+			if((shape.col+j < 0 || shape.col+j >= COL_COUNT || shape.row+i >= ROW_COUNT)){
 				if(array[i][j])
-					return F;
+					return false;
 				
 			}
 			else if(Table[shape.row+i][shape.col+j] && array[i][j])
-				return F;
+				return false;
 		}
 	}
-	return T;
+	return true;
 }
 
 void FunctionRS(Struct shape){
@@ -55,7 +55,7 @@ void FunctionRS(Struct shape){
 }
 
 void FunctionPT(){
-	char Buffer[R][C] = {0};
+	char Buffer[ROW_COUNT][COL_COUNT] = {0};
 	int i, j;
 	for(i = 0; i < current.width ;i++){
 		for(j = 0; j < current.width ; j++){
@@ -64,11 +64,11 @@ void FunctionPT(){
 		}
 	}
 	clear();
-	for(i=0; i<C-9; i++)
+	for(i=0; i<COL_COUNT-9; i++)
 		printw(" ");
 	printw("42 Tetris\n");
-	for(i = 0; i < R ;i++){
-		for(j = 0; j < C ; j++){
+	for(i = 0; i < ROW_COUNT ;i++){
+		for(j = 0; j < COL_COUNT ; j++){
 			printw("%c ", (Table[i][j] + Buffer[i][j])? '#': '.');
 		}
 		printw("\n");

@@ -4,9 +4,9 @@
 
 #include <tetris.h>
 
-char Table[R][C] = {0};
+char Table[ROW_COUNT][COL_COUNT] = {0};
 int final = 0;
-char GameOn = T;
+char GameOn = true;
 suseconds_t timer = 400000;
 int decrease = 1000;
 
@@ -31,12 +31,12 @@ int main() {
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
 	Struct new_shape = FunctionCS(StructsArray[rand()%7]);
-    new_shape.col = rand()%(C-new_shape.width+1);
+    new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
     new_shape.row = 0;
     FunctionDS(current);
 	current = new_shape;
 	if(!FunctionCP(current)){
-		GameOn = F;
+		GameOn = false;
 	}
     FunctionPT();
 	while(GameOn){
@@ -56,30 +56,30 @@ int main() {
 							}
 						}
 						int n, m, sum, count=0;
-						for(n=0;n<R;n++){
+						for(n=0;n<ROW_COUNT;n++){
 							sum = 0;
-							for(m=0;m< C;m++) {
+							for(m=0;m< COL_COUNT;m++) {
 								sum+=Table[n][m];
 							}
-							if(sum==C){
+							if(sum==COL_COUNT){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
-									for(l=0;l<C;l++)
+									for(l=0;l<COL_COUNT;l++)
 										Table[k][l]=Table[k-1][l];
-								for(l=0;l<C;l++)
+								for(l=0;l<COL_COUNT;l++)
 									Table[k][l]=0;
 								timer-=decrease--;
 							}
 						}
 						final += 100*count;
 						Struct new_shape = FunctionCS(StructsArray[rand()%7]);
-						new_shape.col = rand()%(C-new_shape.width+1);
+						new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
 						new_shape.row = 0;
 						FunctionDS(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
-							GameOn = F;
+							GameOn = false;
 						}
 					}
 					break;
@@ -119,29 +119,29 @@ int main() {
 							}
 						}
 						int n, m, sum, count=0;
-						for(n=0;n<R;n++){
+						for(n=0;n<ROW_COUNT;n++){
 							sum = 0;
-							for(m=0;m< C;m++) {
+							for(m=0;m< COL_COUNT;m++) {
 								sum+=Table[n][m];
 							}
-							if(sum==C){
+							if(sum==COL_COUNT){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
-									for(l=0;l<C;l++)
+									for(l=0;l<COL_COUNT;l++)
 										Table[k][l]=Table[k-1][l];
-								for(l=0;l<C;l++)
+								for(l=0;l<COL_COUNT;l++)
 									Table[k][l]=0;
 								timer-=decrease--;
 							}
 						}
 						Struct new_shape = FunctionCS(StructsArray[rand()%7]);
-						new_shape.col = rand()%(C-new_shape.width+1);
+						new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
 						new_shape.row = 0;
 						FunctionDS(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
-							GameOn = F;
+							GameOn = false;
 						}
 					}
 					break;
@@ -169,8 +169,8 @@ int main() {
 	FunctionDS(current);
 	endwin();
 	int i, j;
-	for(i = 0; i < R ;i++){
-		for(j = 0; j < C ; j++){
+	for(i = 0; i < ROW_COUNT ;i++){
+		for(j = 0; j < COL_COUNT ; j++){
 			printf("%c ", Table[i][j] ? '#': '.');
 		}
 		printf("\n");
