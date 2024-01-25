@@ -7,6 +7,14 @@
 #define COL_COUNT 6
 #define BLOCK_PATTERN_COUNT 7
 
+#define CHAR_BLOCK ('#')
+#define CHAR_EMPTY ('.')
+
+#define ACTION_DOWN ('s')
+#define ACTION_LEFT ('a')
+#define ACTION_RIGHT ('d')
+#define ACTION_ROTATE ('w')
+
 typedef struct {
 	char **array;
 	int width, row, col;

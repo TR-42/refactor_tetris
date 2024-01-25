@@ -31,7 +31,7 @@ int main() {
 		if ((c = getch()) != ERR) {
 			Struct temp = FunctionCS(current);
 			switch(c){
-				case 's':
+				case ACTION_DOWN:
 					temp.row++;  //move down
 					if(FunctionCP(temp))
 						current.row++;
@@ -71,17 +71,17 @@ int main() {
 						}
 					}
 					break;
-				case 'd':
+				case ACTION_RIGHT:
 					temp.col++;
 					if(FunctionCP(temp))
 						current.col++;
 					break;
-				case 'a':
+				case ACTION_LEFT:
 					temp.col--;
 					if(FunctionCP(temp))
 						current.col--;
 					break;
-				case 'w':
+				case ACTION_ROTATE:
 					FunctionRS(temp);
 					if(FunctionCP(temp))
 						FunctionRS(current);
@@ -92,8 +92,8 @@ int main() {
 		}
 		if (hasToUpdate()) {
 			Struct temp = FunctionCS(current);
-			switch('s'){
-				case 's':
+			switch(ACTION_DOWN){
+				case ACTION_DOWN:
 					temp.row++;
 					if(FunctionCP(temp))
 						current.row++;
@@ -131,22 +131,23 @@ int main() {
 						}
 					}
 					break;
-				case 'd':
+				case ACTION_RIGHT:
 					temp.col++;
 					if(FunctionCP(temp))
 						current.col++;
 					break;
-				case 'a':
+				case ACTION_LEFT:
 					temp.col--;
 					if(FunctionCP(temp))
 						current.col--;
 					break;
-				case 'w':
+				case ACTION_ROTATE:
 					FunctionRS(temp);
 					if(FunctionCP(temp))
 						FunctionRS(current);
 					break;
 			}
+	
 			FunctionDS(temp);
 			FunctionPT();
 			update_last_exec_time();
@@ -157,7 +158,7 @@ int main() {
 	int i, j;
 	for(i = 0; i < ROW_COUNT ;i++){
 		for(j = 0; j < COL_COUNT ; j++){
-			printf("%c ", Table[i][j] ? '#': '.');
+			printf("%c ", Table[i][j] ? CHAR_BLOCK : CHAR_EMPTY);
 		}
 		printf("\n");
 	}

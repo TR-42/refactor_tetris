@@ -69,7 +69,7 @@ void FunctionPT(){
 	printw("42 Tetris\n");
 	for(i = 0; i < ROW_COUNT ;i++){
 		for(j = 0; j < COL_COUNT ; j++){
-			printw("%c ", (Table[i][j] + Buffer[i][j])? '#': '.');
+			printw("%c ", (Table[i][j] + Buffer[i][j])? CHAR_BLOCK: CHAR_EMPTY);
 		}
 		printw("\n");
 	}
