@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <sys/time.h>
 #include <ncurses.h>
 
 #include <tetris.h>
@@ -17,7 +16,7 @@ int main() {
     final = 0;
     int c;
     initscr();
-	gettimeofday(&before_now, NULL);
+	update_last_exec_time();
 	set_timeout(1);
 	Struct new_shape = FunctionCS(get_random_block());
     new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
@@ -91,7 +90,6 @@ int main() {
 			FunctionDS(temp);
 			FunctionPT();
 		}
-		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
 			Struct temp = FunctionCS(current);
 			switch('s'){
@@ -151,7 +149,7 @@ int main() {
 			}
 			FunctionDS(temp);
 			FunctionPT();
-			gettimeofday(&before_now, NULL);
+			update_last_exec_time();
 		}
 	}
 	FunctionDS(current);

@@ -17,8 +17,6 @@ extern int final;
 extern suseconds_t timer;
 extern Struct current;
 
-extern struct timeval before_now, now;
-
 Struct	get_random_block(void);
 
 Struct FunctionCS(Struct shape);
@@ -27,6 +25,7 @@ bool FunctionCP(Struct shape);
 void FunctionRS(Struct shape);
 void FunctionPT();
 
+void update_last_exec_time();
 int hasToUpdate();
 
 void set_timeout(int time);
