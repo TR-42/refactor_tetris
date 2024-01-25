@@ -17,41 +17,44 @@
 		}\
 	)
 
+#define X 1
+#define _ 0
+
 const Struct StructsArray[BLOCK_PATTERN_COUNT] = {
 	BLOCK_GEN(
-		ROW_GEN(0, 1, 1),
-		ROW_GEN(1, 1, 0),
-		ROW_GEN(0, 0, 0),
+		ROW_GEN(_, X, X),
+		ROW_GEN(X, X, _),
+		ROW_GEN(_, _, _),
 	),
 	BLOCK_GEN(
-		ROW_GEN(1, 1, 0),
-		ROW_GEN(0, 1, 1),
-		ROW_GEN(0, 0, 0),
+		ROW_GEN(X, X, _),
+		ROW_GEN(_, X, X),
+		ROW_GEN(_, _, _),
 	),
 	BLOCK_GEN(
-		ROW_GEN(0, 1, 0),
-		ROW_GEN(1, 1, 1),
-		ROW_GEN(0, 0, 0),
+		ROW_GEN(_, X, _),
+		ROW_GEN(X, X, X),
+		ROW_GEN(_, _, _),
 	),
 	BLOCK_GEN(
-		ROW_GEN(0, 0, 1),
-		ROW_GEN(1, 1, 1),
-		ROW_GEN(0, 0, 0),
+		ROW_GEN(_, _, X),
+		ROW_GEN(X, X, X),
+		ROW_GEN(_, _, _),
 	),
 	BLOCK_GEN(
-		ROW_GEN(1, 0, 0),
-		ROW_GEN(1, 1, 1),
-		ROW_GEN(0, 0, 0),
+		ROW_GEN(X, _, _),
+		ROW_GEN(X, X, X),
+		ROW_GEN(_, _, _),
 	),
 	BLOCK_GEN(
-		ROW_GEN(1, 1),
-		ROW_GEN(1, 1),
+		ROW_GEN(X, X),
+		ROW_GEN(X, X),
 	),
 	BLOCK_GEN(
-		ROW_GEN(0, 0, 0, 0),
-		ROW_GEN(1, 1, 1, 1),
-		ROW_GEN(0, 0, 0, 0),
-		ROW_GEN(0, 0, 0, 0),
+		ROW_GEN(_, _, _, _),
+		ROW_GEN(X, X, X, X),
+		ROW_GEN(_, _, _, _),
+		ROW_GEN(_, _, _, _),
 	),
 };
 
