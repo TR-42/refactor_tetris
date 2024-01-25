@@ -7,22 +7,22 @@ Struct FunctionCS(Struct shape){
 	Struct new_shape = shape;
 	char **copyshape = shape.array;
 	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
-    int i, j;
-    for(i = 0; i < new_shape.width; i++){
+	int i, j;
+	for(i = 0; i < new_shape.width; i++){
 		new_shape.array[i] = (char*)malloc(new_shape.width*sizeof(char));
 		for(j=0; j < new_shape.width; j++) {
 			new_shape.array[i][j] = copyshape[i][j];
 		}
-    }
-    return new_shape;
+	}
+	return new_shape;
 }
 
 void FunctionDS(Struct shape){
-    int i;
-    for(i = 0; i < shape.width; i++){
+	int i;
+	for(i = 0; i < shape.width; i++){
 		free(shape.array[i]);
-    }
-    free(shape.array);
+	}
+	free(shape.array);
 }
 
 bool FunctionCP(Struct shape){
@@ -65,7 +65,7 @@ void FunctionPT(){
 	}
 	clear();
 	for(i=0; i<COL_COUNT-9; i++)
-		printw(" ");
+	printw(" ");
 	printw("42 Tetris\n");
 	for(i = 0; i < ROW_COUNT ;i++){
 		for(j = 0; j < COL_COUNT ; j++){

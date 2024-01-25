@@ -75,19 +75,19 @@ void action_rotate(
 }
 
 int main() {
-    srand(time(0));
-    final = 0;
-    int c;
-    initscr();
+	srand(time(0));
+	final = 0;
+	int c;
+	initscr();
 	update_last_exec_time();
 	set_timeout(1);
 	Struct new_shape = FunctionCS(get_random_block());
-    FunctionDS(current);
+	FunctionDS(current);
 	current = new_shape;
 	if(!FunctionCP(current)){
 		GameOn = false;
 	}
-    FunctionPT();
+	FunctionPT();
 	while(GameOn){
 		if ((c = getch()) != ERR) {
 			Struct temp = FunctionCS(current);
@@ -128,5 +128,5 @@ int main() {
 	}
 	printf("\nGame over!\n");
 	printf("\nScore: %d\n", final);
-    return 0;
+	return 0;
 }
