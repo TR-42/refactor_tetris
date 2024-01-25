@@ -44,8 +44,6 @@ static void action_down(
 		}
 		final += 100*count;
 		Struct new_shape = FunctionCS(get_random_block());
-		new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
-		new_shape.row = 0;
 		FunctionDS(current);
 		current = new_shape;
 		if(!FunctionCP(current)){
@@ -84,8 +82,6 @@ int main() {
 	update_last_exec_time();
 	set_timeout(1);
 	Struct new_shape = FunctionCS(get_random_block());
-    new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
-    new_shape.row = 0;
     FunctionDS(current);
 	current = new_shape;
 	if(!FunctionCP(current)){

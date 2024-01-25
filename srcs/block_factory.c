@@ -60,5 +60,9 @@ const Struct StructsArray[BLOCK_PATTERN_COUNT] = {
 
 Struct	get_random_block(void)
 {
-	return (StructsArray[rand() % BLOCK_PATTERN_COUNT]);
+	Struct next_shape = StructsArray[rand() % BLOCK_PATTERN_COUNT];
+
+	next_shape.col = rand() % (COL_COUNT - next_shape.width + 1);
+	next_shape.row = 0;
+	return (next_shape);
 }
