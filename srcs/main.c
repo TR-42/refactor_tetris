@@ -92,60 +92,41 @@ int main() {
 		}
 		if (hasToUpdate()) {
 			Struct temp = FunctionCS(current);
-			switch(ACTION_DOWN){
-				case ACTION_DOWN:
-					temp.row++;
-					if(FunctionCP(temp))
-						current.row++;
-					else {
-						int i, j;
-						for(i = 0; i < current.width ;i++){
-							for(j = 0; j < current.width ; j++){
-								if(current.array[i][j])
-									Table[current.row+i][current.col+j] = current.array[i][j];
-							}
-						}
-						int n, m, sum;
-						for(n=0;n<ROW_COUNT;n++){
-							sum = 0;
-							for(m=0;m< COL_COUNT;m++) {
-								sum+=Table[n][m];
-							}
-							if(sum==COL_COUNT){
-								int l, k;
-								for(k = n;k >=1;k--)
-									for(l=0;l<COL_COUNT;l++)
-										Table[k][l]=Table[k-1][l];
-								for(l=0;l<COL_COUNT;l++)
-									Table[k][l]=0;
-								timer-=decrease--;
-							}
-						}
-						Struct new_shape = FunctionCS(get_random_block());
-						new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
-						new_shape.row = 0;
-						FunctionDS(current);
-						current = new_shape;
-						if(!FunctionCP(current)){
-							GameOn = false;
-						}
+			temp.row++;
+			if(FunctionCP(temp))
+				current.row++;
+			else {
+				int i, j;
+				for(i = 0; i < current.width ;i++){
+					for(j = 0; j < current.width ; j++){
+						if(current.array[i][j])
+							Table[current.row+i][current.col+j] = current.array[i][j];
 					}
-					break;
-				case ACTION_RIGHT:
-					temp.col++;
-					if(FunctionCP(temp))
-						current.col++;
-					break;
-				case ACTION_LEFT:
-					temp.col--;
-					if(FunctionCP(temp))
-						current.col--;
-					break;
-				case ACTION_ROTATE:
-					FunctionRS(temp);
-					if(FunctionCP(temp))
-						FunctionRS(current);
-					break;
+				}
+				int n, m, sum;
+				for(n=0;n<ROW_COUNT;n++){
+					sum = 0;
+					for(m=0;m< COL_COUNT;m++) {
+						sum+=Table[n][m];
+					}
+					if(sum==COL_COUNT){
+						int l, k;
+						for(k = n;k >=1;k--)
+							for(l=0;l<COL_COUNT;l++)
+								Table[k][l]=Table[k-1][l];
+						for(l=0;l<COL_COUNT;l++)
+							Table[k][l]=0;
+						timer-=decrease--;
+					}
+				}
+				Struct new_shape = FunctionCS(get_random_block());
+				new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
+				new_shape.row = 0;
+				FunctionDS(current);
+				current = new_shape;
+				if(!FunctionCP(current)){
+					GameOn = false;
+				}
 			}
 	
 			FunctionDS(temp);
