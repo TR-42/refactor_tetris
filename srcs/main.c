@@ -107,14 +107,13 @@ int main() {
 									Table[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
-						int n, m, sum, count=0;
+						int n, m, sum;
 						for(n=0;n<ROW_COUNT;n++){
 							sum = 0;
 							for(m=0;m< COL_COUNT;m++) {
 								sum+=Table[n][m];
 							}
 							if(sum==COL_COUNT){
-								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<COL_COUNT;l++)
