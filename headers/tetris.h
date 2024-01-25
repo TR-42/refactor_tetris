@@ -3,8 +3,8 @@
 #include <sys/time.h>
 #include <stdbool.h>
 
-#define ROW_COUNT 20
-#define COL_COUNT 15
+#define ROW_COUNT 8
+#define COL_COUNT 6
 #define BLOCK_PATTERN_COUNT 7
 
 typedef struct {
