@@ -11,6 +11,71 @@ int decrease = 1000;
 
 Struct current;
 
+static void action_down(
+	Struct *temp
+) {
+	temp->row++;  //move down
+	if(FunctionCP(*temp))
+		current.row++;
+	else {
+		int i, j;
+		for(i = 0; i < current.width ;i++){
+			for(j = 0; j < current.width ; j++){
+				if(current.array[i][j])
+					Table[current.row+i][current.col+j] = current.array[i][j];
+			}
+		}
+		int n, m, sum, count=0;
+		for(n=0;n<ROW_COUNT;n++){
+			sum = 0;
+			for(m=0;m< COL_COUNT;m++) {
+				sum+=Table[n][m];
+			}
+			if(sum==COL_COUNT){
+				count++;
+				int l, k;
+				for(k = n;k >=1;k--)
+					for(l=0;l<COL_COUNT;l++)
+						Table[k][l]=Table[k-1][l];
+				for(l=0;l<COL_COUNT;l++)
+					Table[k][l]=0;
+				timer-=decrease--;
+			}
+		}
+		final += 100*count;
+		Struct new_shape = FunctionCS(get_random_block());
+		new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
+		new_shape.row = 0;
+		FunctionDS(current);
+		current = new_shape;
+		if(!FunctionCP(current)){
+			GameOn = false;
+		}
+	}
+}
+
+void action_left(
+	Struct *temp
+) {
+	temp->col--;
+	if(FunctionCP(*temp))
+		current.col--;
+}
+void action_right(
+	Struct *temp
+) {
+	temp->col++;
+	if(FunctionCP(*temp))
+		current.col++;
+}
+void action_rotate(
+	Struct *temp
+) {
+	FunctionRS(*temp);
+	if(FunctionCP(*temp))
+		FunctionRS(current);
+}
+
 int main() {
     srand(time(0));
     final = 0;
@@ -32,59 +97,16 @@ int main() {
 			Struct temp = FunctionCS(current);
 			switch(c){
 				case ACTION_DOWN:
-					temp.row++;  //move down
-					if(FunctionCP(temp))
-						current.row++;
-					else {
-						int i, j;
-						for(i = 0; i < current.width ;i++){
-							for(j = 0; j < current.width ; j++){
-								if(current.array[i][j])
-									Table[current.row+i][current.col+j] = current.array[i][j];
-							}
-						}
-						int n, m, sum, count=0;
-						for(n=0;n<ROW_COUNT;n++){
-							sum = 0;
-							for(m=0;m< COL_COUNT;m++) {
-								sum+=Table[n][m];
-							}
-							if(sum==COL_COUNT){
-								count++;
-								int l, k;
-								for(k = n;k >=1;k--)
-									for(l=0;l<COL_COUNT;l++)
-										Table[k][l]=Table[k-1][l];
-								for(l=0;l<COL_COUNT;l++)
-									Table[k][l]=0;
-								timer-=decrease--;
-							}
-						}
-						final += 100*count;
-						Struct new_shape = FunctionCS(get_random_block());
-						new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
-						new_shape.row = 0;
-						FunctionDS(current);
-						current = new_shape;
-						if(!FunctionCP(current)){
-							GameOn = false;
-						}
-					}
+					action_down(&temp);
 					break;
 				case ACTION_RIGHT:
-					temp.col++;
-					if(FunctionCP(temp))
-						current.col++;
+					action_right(&temp);
 					break;
 				case ACTION_LEFT:
-					temp.col--;
-					if(FunctionCP(temp))
-						current.col--;
+					action_left(&temp);
 					break;
 				case ACTION_ROTATE:
-					FunctionRS(temp);
-					if(FunctionCP(temp))
-						FunctionRS(current);
+					action_rotate(&temp);
 					break;
 			}
 			FunctionDS(temp);
@@ -92,42 +114,7 @@ int main() {
 		}
 		if (hasToUpdate()) {
 			Struct temp = FunctionCS(current);
-			temp.row++;
-			if(FunctionCP(temp))
-				current.row++;
-			else {
-				int i, j;
-				for(i = 0; i < current.width ;i++){
-					for(j = 0; j < current.width ; j++){
-						if(current.array[i][j])
-							Table[current.row+i][current.col+j] = current.array[i][j];
-					}
-				}
-				int n, m, sum;
-				for(n=0;n<ROW_COUNT;n++){
-					sum = 0;
-					for(m=0;m< COL_COUNT;m++) {
-						sum+=Table[n][m];
-					}
-					if(sum==COL_COUNT){
-						int l, k;
-						for(k = n;k >=1;k--)
-							for(l=0;l<COL_COUNT;l++)
-								Table[k][l]=Table[k-1][l];
-						for(l=0;l<COL_COUNT;l++)
-							Table[k][l]=0;
-						timer-=decrease--;
-					}
-				}
-				Struct new_shape = FunctionCS(get_random_block());
-				new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
-				new_shape.row = 0;
-				FunctionDS(current);
-				current = new_shape;
-				if(!FunctionCP(current)){
-					GameOn = false;
-				}
-			}
+			action_down(&temp);
 	
 			FunctionDS(temp);
 			FunctionPT();
