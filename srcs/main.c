@@ -12,17 +12,6 @@ int decrease = 1000;
 
 Struct current;
 
-const Struct StructsArray[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
-};
-
-
 int main() {
     srand(time(0));
     final = 0;
@@ -30,7 +19,7 @@ int main() {
     initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
-	Struct new_shape = FunctionCS(StructsArray[rand()%7]);
+	Struct new_shape = FunctionCS(get_random_block());
     new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
     new_shape.row = 0;
     FunctionDS(current);
@@ -73,7 +62,7 @@ int main() {
 							}
 						}
 						final += 100*count;
-						Struct new_shape = FunctionCS(StructsArray[rand()%7]);
+						Struct new_shape = FunctionCS(get_random_block());
 						new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
 						new_shape.row = 0;
 						FunctionDS(current);
@@ -135,7 +124,7 @@ int main() {
 								timer-=decrease--;
 							}
 						}
-						Struct new_shape = FunctionCS(StructsArray[rand()%7]);
+						Struct new_shape = FunctionCS(get_random_block());
 						new_shape.col = rand()%(COL_COUNT-new_shape.width+1);
 						new_shape.row = 0;
 						FunctionDS(current);

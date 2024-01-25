@@ -8,6 +8,7 @@ SRCS_MAIN	=\
 	main.c\
 
 SRCS_OTHER	=\
+	block_factory.c\
 	functions.c\
 	utils.c\
 

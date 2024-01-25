@@ -5,6 +5,7 @@
 
 #define ROW_COUNT 20
 #define COL_COUNT 15
+#define BLOCK_PATTERN_COUNT 7
 
 typedef struct {
 	char **array;
@@ -17,6 +18,8 @@ extern suseconds_t timer;
 extern Struct current;
 
 extern struct timeval before_now, now;
+
+Struct	get_random_block(void);
 
 Struct FunctionCS(Struct shape);
 void FunctionDS(Struct shape);
