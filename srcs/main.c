@@ -5,9 +5,9 @@
 
 char Table[ROW_COUNT][COL_COUNT] = {0};
 int final = 0;
-char GameOn = true;
+static char GameOn = true;
 suseconds_t timer = 400000;
-int decrease = 1000;
+static int decrease = 1000;
 
 Tetromino current;
 
@@ -52,21 +52,21 @@ static void action_down(
 	}
 }
 
-void action_left(
+static void action_left(
 	Tetromino *temp
 ) {
 	temp->col--;
 	if(can_put_tetromino(*temp))
 		current.col--;
 }
-void action_right(
+static void action_right(
 	Tetromino *temp
 ) {
 	temp->col++;
 	if(can_put_tetromino(*temp))
 		current.col++;
 }
-void action_rotate(
+static void action_rotate(
 	Tetromino *temp
 ) {
 	tetromino_rotate(*temp);
