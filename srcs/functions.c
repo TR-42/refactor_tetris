@@ -3,8 +3,8 @@
 
 #include <tetris.h>
 
-Struct FunctionCS(Struct shape){
-	Struct new_shape = shape;
+Tetromino tetromino_clone(Tetromino shape){
+	Tetromino new_shape = shape;
 	char **copyshape = shape.array;
 	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
 	int i, j;
@@ -17,7 +17,7 @@ Struct FunctionCS(Struct shape){
 	return new_shape;
 }
 
-void FunctionDS(Struct shape){
+void tetromino_dispose(Tetromino shape){
 	int i;
 	for(i = 0; i < shape.width; i++){
 		free(shape.array[i]);
@@ -25,7 +25,7 @@ void FunctionDS(Struct shape){
 	free(shape.array);
 }
 
-bool FunctionCP(Struct shape){
+bool can_put_tetromino(Tetromino shape){
 	char **array = shape.array;
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
@@ -42,8 +42,8 @@ bool FunctionCP(Struct shape){
 	return true;
 }
 
-void FunctionRS(Struct shape){
-	Struct temp = FunctionCS(shape);
+void tetromino_rotate(Tetromino shape){
+	Tetromino temp = tetromino_clone(shape);
 	int i, j, k, width;
 	width = shape.width;
 	for(i = 0; i < width ; i++){
@@ -51,10 +51,10 @@ void FunctionRS(Struct shape){
 				shape.array[i][j] = temp.array[k][i];
 		}
 	}
-	FunctionDS(temp);
+	tetromino_dispose(temp);
 }
 
-void FunctionPT(){
+void print_current_table(){
 	char Buffer[ROW_COUNT][COL_COUNT] = {0};
 	int i, j;
 	for(i = 0; i < current.width ;i++){

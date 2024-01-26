@@ -7,7 +7,7 @@
 #define ROW_GEN(...) ((char []){ __VA_ARGS__ })
 #define BLOCK_GEN(...) \
 	(\
-		(Struct){\
+		(Tetromino){\
 			.array = (char *[]){\
 				__VA_ARGS__\
 			},\
@@ -20,7 +20,7 @@
 #define X 1
 #define _ 0
 
-const Struct StructsArray[BLOCK_PATTERN_COUNT] = {
+static const Tetromino TetrominoPatternArray[TETROMINO_COUNT] = {
 	BLOCK_GEN(
 		ROW_GEN(_, X, X),
 		ROW_GEN(X, X, _),
@@ -58,9 +58,9 @@ const Struct StructsArray[BLOCK_PATTERN_COUNT] = {
 	),
 };
 
-Struct	get_random_block(void)
+Tetromino	get_random_tetromino(void)
 {
-	Struct next_shape = StructsArray[rand() % BLOCK_PATTERN_COUNT];
+	Tetromino next_shape = TetrominoPatternArray[rand() % TETROMINO_COUNT];
 
 	next_shape.col = rand() % (COL_COUNT - next_shape.width + 1);
 	next_shape.row = 0;

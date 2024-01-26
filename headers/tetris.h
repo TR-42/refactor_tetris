@@ -5,7 +5,7 @@
 
 #define ROW_COUNT 8
 #define COL_COUNT 6
-#define BLOCK_PATTERN_COUNT 7
+#define TETROMINO_COUNT 7
 
 #define CHAR_BLOCK ('#')
 #define CHAR_EMPTY ('.')
@@ -18,20 +18,20 @@
 typedef struct {
 	char **array;
 	int width, row, col;
-} Struct;
+} Tetromino;
 
 extern char Table[ROW_COUNT][COL_COUNT];
 extern int final;
 extern suseconds_t timer;
-extern Struct current;
+extern Tetromino current;
 
-Struct	get_random_block(void);
+Tetromino	get_random_tetromino(void);
 
-Struct FunctionCS(Struct shape);
-void FunctionDS(Struct shape);
-bool FunctionCP(Struct shape);
-void FunctionRS(Struct shape);
-void FunctionPT();
+Tetromino tetromino_clone(Tetromino shape);
+void tetromino_dispose(Tetromino shape);
+bool can_put_tetromino(Tetromino shape);
+void tetromino_rotate(Tetromino shape);
+void print_current_table();
 
 void update_last_exec_time();
 int hasToUpdate();
