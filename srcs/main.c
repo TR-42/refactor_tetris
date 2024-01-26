@@ -6,65 +6,82 @@
 char Table[ROW_COUNT][COL_COUNT] = {0};
 int final_score = 0;
 static bool game_on = true;
-suseconds_t timer = 400000;
-static int decrease = 1000;
+suseconds_t time_to_next_frame_us = 400000;
+static int frame_time_decrease_on_each_clear_us = 1000;
 
 Tetromino current;
 
-static void action_down(Tetromino *temp) {
-	temp->row++;	// move down
-	if (can_put_tetromino(temp)) {
-		current.row++;
-	} else {
-		for (int block_row = 0; block_row < current.width; block_row++) {
-			for (int block_col = 0; block_col < current.width; block_col++) {
-				if (current.array[block_row][block_col]) {
-					Table[current.row + block_row][current.col + block_col] = current.array[block_row][block_col];
-				}
-			}
+static void _erase_cleared_line(int cleared_line_row) {
+	for (int board_row = cleared_line_row; board_row >= 1; board_row--) {
+		for (int board_col = 0; board_col < COL_COUNT; board_col++) {
+			Table[board_row][board_col] = Table[board_row - 1][board_col];
 		}
-		int removed_line_count = 0;
-		for (int board_row_cursor = 0; board_row_cursor < ROW_COUNT; board_row_cursor++) {
-			int filled_block_count_one_row = 0;
-			for (int board_col = 0; board_col < COL_COUNT; board_col++) {
-				filled_block_count_one_row += Table[board_row_cursor][board_col];
-			}
-			if (filled_block_count_one_row == COL_COUNT) {
-				removed_line_count++;
-				for (int board_row = board_row_cursor; board_row >= 1; board_row--) {
-					for (int board_col = 0; board_col < COL_COUNT; board_col++) {
-						Table[board_row][board_col] = Table[board_row - 1][board_col];
-					}
-				}
-				for (int board_col = 0; board_col < COL_COUNT; board_col++) {
-					Table[0][board_col] = 0;
-				}
-				timer -= decrease--;
-			}
+	}
+	for (int board_col = 0; board_col < COL_COUNT; board_col++) {
+		Table[0][board_col] = 0;
+	}
+}
+
+static bool _is_row_clearable(int board_row) {
+	for (int board_col = 0; board_col < COL_COUNT; board_col++) {
+		if (!Table[board_row][board_col]) {
+			return false;
 		}
+	}
+	return true;
+}
 
-		final_score += 100 * removed_line_count * COL_COUNT;
-
-		current = get_random_tetromino();
-		if (!can_put_tetromino(&current)) {
-			game_on = false;
+static void _put_tetromino() {
+	for (int block_row = 0; block_row < current.width; block_row++) {
+		for (int block_col = 0; block_col < current.width; block_col++) {
+			if (current.array[block_row][block_col]) {
+				Table[current.row + block_row][current.col + block_col] = current.array[block_row][block_col];
+			}
 		}
 	}
 }
 
-static void action_left(Tetromino *temp) {
+static void _change_tetromino() {
+	current = get_random_tetromino();
+	if (!can_put_tetromino(&current)) {
+		game_on = false;
+	}
+}
+
+static void _action_down(Tetromino *temp) {
+	temp->row++;
+	if (can_put_tetromino(temp)) {
+		current.row++;
+	} else {
+		_put_tetromino();
+
+		for (int board_row_cursor = 0; board_row_cursor < ROW_COUNT; board_row_cursor++) {
+			if (_is_row_clearable(board_row_cursor)) {
+				_erase_cleared_line(board_row_cursor);
+				if (0 < frame_time_decrease_on_each_clear_us) {
+					time_to_next_frame_us -= frame_time_decrease_on_each_clear_us--;
+				}
+				final_score += 100 * COL_COUNT;
+			}
+		}
+
+		_change_tetromino();
+	}
+}
+
+static void _action_left(Tetromino *temp) {
 	temp->col--;
 	if (can_put_tetromino(temp)) {
 		current.col--;
 	}
 }
-static void action_right(Tetromino *temp) {
+static void _action_right(Tetromino *temp) {
 	temp->col++;
 	if (can_put_tetromino(temp)) {
 		current.col++;
 	}
 }
-static void action_rotate(Tetromino *temp) {
+static void _action_rotate(Tetromino *temp) {
 	tetromino_rotate(temp);
 	if (can_put_tetromino(temp)) {
 		tetromino_rotate(&current);
@@ -90,16 +107,16 @@ int main() {
 			Tetromino temp = current;
 			switch (key_input) {
 				case ACTION_DOWN:
-					action_down(&temp);
+					_action_down(&temp);
 					break;
 				case ACTION_RIGHT:
-					action_right(&temp);
+					_action_right(&temp);
 					break;
 				case ACTION_LEFT:
-					action_left(&temp);
+					_action_left(&temp);
 					break;
 				case ACTION_ROTATE:
-					action_rotate(&temp);
+					_action_rotate(&temp);
 					break;
 			}
 			print_current_table();
@@ -107,7 +124,7 @@ int main() {
 
 		if (hasToUpdate()) {
 			Tetromino temp = current;
-			action_down(&temp);
+			_action_down(&temp);
 
 			print_current_table();
 			update_last_exec_time();
