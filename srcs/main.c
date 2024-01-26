@@ -42,7 +42,7 @@ static void action_down(Tetromino *temp) {
 			}
 		}
 
-		final_score += 100 * removed_line_count;
+		final_score += 100 * removed_line_count * COL_COUNT;
 
 		Tetromino new_shape = tetromino_clone(get_random_tetromino());
 		tetromino_dispose(current);
