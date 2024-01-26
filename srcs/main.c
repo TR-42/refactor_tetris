@@ -18,8 +18,9 @@ static void action_down(Tetromino *temp) {
 	} else {
 		for (int row = 0; row < current.width; row++) {
 			for (int col = 0; col < current.width; col++) {
-				if (current.array[row][col])
+				if (current.array[row][col]) {
 					Table[current.row + row][current.col + col] = current.array[row][col];
+				}
 			}
 		}
 		int removed_line_count = 0;
