@@ -1,7 +1,7 @@
 #pragma once
 
-#include <sys/time.h>
 #include <stdbool.h>
+#include <sys/time.h>
 
 #define ROW_COUNT 8
 #define COL_COUNT 6
@@ -15,17 +15,19 @@
 #define ACTION_RIGHT ('d')
 #define ACTION_ROTATE ('w')
 
+#define GAME_TITLE "42 Tetris"
+
 typedef struct {
 	char **array;
 	int width, row, col;
 } Tetromino;
 
 extern char Table[ROW_COUNT][COL_COUNT];
-extern int final;
+extern int final_score;
 extern suseconds_t timer;
 extern Tetromino current;
 
-Tetromino	get_random_tetromino(void);
+Tetromino get_random_tetromino(void);
 
 Tetromino tetromino_clone(Tetromino shape);
 void tetromino_dispose(Tetromino shape);

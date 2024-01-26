@@ -1,7 +1,7 @@
 #include <stdlib.h>
-
 #include <tetris.h>
 
+// clang-format off
 // ref: https://gist.github.com/aprell/3722962
 #define ROWS_COUNT(...) (sizeof((char *[]){ __VA_ARGS__ }) / sizeof(char *))
 #define ROW_GEN(...) ((char []){ __VA_ARGS__ })
@@ -57,9 +57,9 @@ static const Tetromino TetrominoPatternArray[TETROMINO_COUNT] = {
 		ROW_GEN(_, _, _, _),
 	),
 };
+// clang-format on
 
-Tetromino	get_random_tetromino(void)
-{
+Tetromino get_random_tetromino(void) {
 	Tetromino next_shape = TetrominoPatternArray[rand() % TETROMINO_COUNT];
 
 	next_shape.col = rand() % (COL_COUNT - next_shape.width + 1);

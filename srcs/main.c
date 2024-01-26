@@ -1,97 +1,97 @@
-#include <stdlib.h>
 #include <ncurses.h>
-
+#include <stdbool.h>
+#include <stdlib.h>
 #include <tetris.h>
 
 char Table[ROW_COUNT][COL_COUNT] = {0};
-int final = 0;
-static char GameOn = true;
+int final_score = 0;
+static bool game_on = true;
 suseconds_t timer = 400000;
 static int decrease = 1000;
 
 Tetromino current;
 
-static void action_down(
-	Tetromino *temp
-) {
-	temp->row++;  //move down
-	if(can_put_tetromino(*temp))
+static void action_down(Tetromino *temp) {
+	temp->row++;	// move down
+	if (can_put_tetromino(*temp)) {
 		current.row++;
-	else {
-		int i, j;
-		for(i = 0; i < current.width ;i++){
-			for(j = 0; j < current.width ; j++){
-				if(current.array[i][j])
-					Table[current.row+i][current.col+j] = current.array[i][j];
+	} else {
+		for (int row = 0; row < current.width; row++) {
+			for (int col = 0; col < current.width; col++) {
+				if (current.array[row][col])
+					Table[current.row + row][current.col + col] = current.array[row][col];
 			}
 		}
-		int n, m, sum, count=0;
-		for(n=0;n<ROW_COUNT;n++){
-			sum = 0;
-			for(m=0;m< COL_COUNT;m++) {
-				sum+=Table[n][m];
+		int removed_line_count = 0;
+		for (int current_row = 0; current_row < ROW_COUNT; current_row++) {
+			int filled_block_count_one_row = 0;
+			for (int col = 0; col < COL_COUNT; col++) {
+				filled_block_count_one_row += Table[current_row][col];
 			}
-			if(sum==COL_COUNT){
-				count++;
-				int l, k;
-				for(k = n;k >=1;k--)
-					for(l=0;l<COL_COUNT;l++)
-						Table[k][l]=Table[k-1][l];
-				for(l=0;l<COL_COUNT;l++)
-					Table[k][l]=0;
-				timer-=decrease--;
+			if (filled_block_count_one_row == COL_COUNT) {
+				removed_line_count++;
+				for (int row = current_row; row >= 1; row--) {
+					for (int col = 0; col < COL_COUNT; col++) {
+						Table[row][col] = Table[row - 1][col];
+					}
+				}
+				for (int col = 0; col < COL_COUNT; col++) {
+					Table[current_row][col] = 0;
+				}
+				timer -= decrease--;
 			}
 		}
-		final += 100*count;
+
+		final_score += 100 * removed_line_count;
+
 		Tetromino new_shape = tetromino_clone(get_random_tetromino());
 		tetromino_dispose(current);
 		current = new_shape;
-		if(!can_put_tetromino(current)){
-			GameOn = false;
+		if (!can_put_tetromino(current)) {
+			game_on = false;
 		}
 	}
 }
 
-static void action_left(
-	Tetromino *temp
-) {
+static void action_left(Tetromino *temp) {
 	temp->col--;
-	if(can_put_tetromino(*temp))
+	if (can_put_tetromino(*temp)) {
 		current.col--;
+	}
 }
-static void action_right(
-	Tetromino *temp
-) {
+static void action_right(Tetromino *temp) {
 	temp->col++;
-	if(can_put_tetromino(*temp))
+	if (can_put_tetromino(*temp)) {
 		current.col++;
+	}
 }
-static void action_rotate(
-	Tetromino *temp
-) {
+static void action_rotate(Tetromino *temp) {
 	tetromino_rotate(*temp);
-	if(can_put_tetromino(*temp))
+	if (can_put_tetromino(*temp)) {
 		tetromino_rotate(current);
+	}
 }
 
 int main() {
 	srand(time(0));
-	final = 0;
-	int c;
 	initscr();
 	update_last_exec_time();
 	set_timeout(1);
+
 	Tetromino new_shape = tetromino_clone(get_random_tetromino());
 	tetromino_dispose(current);
 	current = new_shape;
-	if(!can_put_tetromino(current)){
-		GameOn = false;
+	if (!can_put_tetromino(current)) {
+		game_on = false;
 	}
+
 	print_current_table();
-	while(GameOn){
-		if ((c = getch()) != ERR) {
+
+	while (game_on) {
+		int key_input = getch();
+		if (key_input != ERR) {
 			Tetromino temp = tetromino_clone(current);
-			switch(c){
+			switch (key_input) {
 				case ACTION_DOWN:
 					action_down(&temp);
 					break;
@@ -105,28 +105,30 @@ int main() {
 					action_rotate(&temp);
 					break;
 			}
+
 			tetromino_dispose(temp);
 			print_current_table();
 		}
+
 		if (hasToUpdate()) {
 			Tetromino temp = tetromino_clone(current);
 			action_down(&temp);
-	
+
 			tetromino_dispose(temp);
 			print_current_table();
 			update_last_exec_time();
 		}
 	}
+
 	tetromino_dispose(current);
 	endwin();
-	int i, j;
-	for(i = 0; i < ROW_COUNT ;i++){
-		for(j = 0; j < COL_COUNT ; j++){
-			printf("%c ", Table[i][j] ? CHAR_BLOCK : CHAR_EMPTY);
+	for (int row = 0; row < ROW_COUNT; row++) {
+		for (int col = 0; col < COL_COUNT; col++) {
+			printf("%c ", Table[row][col] ? CHAR_BLOCK : CHAR_EMPTY);
 		}
 		printf("\n");
 	}
 	printf("\nGame over!\n");
-	printf("\nScore: %d\n", final);
+	printf("\nScore: %d\n", final_score);
 	return 0;
 }
