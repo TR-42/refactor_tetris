@@ -16,28 +16,28 @@ static void action_down(Tetromino *temp) {
 	if (can_put_tetromino(temp)) {
 		current.row++;
 	} else {
-		for (int row = 0; row < current.width; row++) {
-			for (int col = 0; col < current.width; col++) {
-				if (current.array[row][col]) {
-					Table[current.row + row][current.col + col] = current.array[row][col];
+		for (int block_row = 0; block_row < current.width; block_row++) {
+			for (int block_col = 0; block_col < current.width; block_col++) {
+				if (current.array[block_row][block_col]) {
+					Table[current.row + block_row][current.col + block_col] = current.array[block_row][block_col];
 				}
 			}
 		}
 		int removed_line_count = 0;
-		for (int current_row = 0; current_row < ROW_COUNT; current_row++) {
+		for (int board_row_cursor = 0; board_row_cursor < ROW_COUNT; board_row_cursor++) {
 			int filled_block_count_one_row = 0;
-			for (int col = 0; col < COL_COUNT; col++) {
-				filled_block_count_one_row += Table[current_row][col];
+			for (int board_col = 0; board_col < COL_COUNT; board_col++) {
+				filled_block_count_one_row += Table[board_row_cursor][board_col];
 			}
 			if (filled_block_count_one_row == COL_COUNT) {
 				removed_line_count++;
-				for (int row = current_row; row >= 1; row--) {
-					for (int col = 0; col < COL_COUNT; col++) {
-						Table[row][col] = Table[row - 1][col];
+				for (int board_row = board_row_cursor; board_row >= 1; board_row--) {
+					for (int board_col = 0; board_col < COL_COUNT; board_col++) {
+						Table[board_row][board_col] = Table[board_row - 1][board_col];
 					}
 				}
-				for (int col = 0; col < COL_COUNT; col++) {
-					Table[current_row][col] = 0;
+				for (int board_col = 0; board_col < COL_COUNT; board_col++) {
+					Table[board_row_cursor][board_col] = 0;
 				}
 				timer -= decrease--;
 			}
