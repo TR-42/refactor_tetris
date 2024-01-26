@@ -22,7 +22,7 @@ LINKS	=\
 INCLUDES	=\
 	-I./headers\
 
-CFLAGS	=	-Wall -Wextra -Werror -MMD -MP -MF $(DEPS_DIR)/$*.d
+CFLAGS	=	-Wall -Wextra -Werror -std=c11 -MMD -MP -MF $(DEPS_DIR)/$*.d
 
 SRCS	=	$(addprefix $(SRCS_DIR)/, $(SRC_FILES))
 OBJS	=	$(addprefix $(OBJS_DIR)/, $(SRC_FILES:.c=.o))
