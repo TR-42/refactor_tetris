@@ -37,7 +37,7 @@ static void action_down(Tetromino *temp) {
 					}
 				}
 				for (int board_col = 0; board_col < COL_COUNT; board_col++) {
-					Table[board_row_cursor][board_col] = 0;
+					Table[0][board_col] = 0;
 				}
 				timer -= decrease--;
 			}
