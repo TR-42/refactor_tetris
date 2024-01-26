@@ -9,7 +9,7 @@ static bool game_on = true;
 suseconds_t time_to_next_frame_us = 400000;
 static int frame_time_decrease_on_each_clear_us = 1000;
 
-Tetromino current;
+Tetromino current_shape;
 
 static void _erase_cleared_line(int cleared_line_row) {
 	for (int board_row = cleared_line_row; board_row >= 1; board_row--) {
@@ -32,18 +32,18 @@ static bool _is_row_clearable(int board_row) {
 }
 
 static void _put_tetromino() {
-	for (int block_row = 0; block_row < current.width; block_row++) {
-		for (int block_col = 0; block_col < current.width; block_col++) {
-			if (current.array[block_row][block_col]) {
-				Table[current.row + block_row][current.col + block_col] = current.array[block_row][block_col];
+	for (int block_row = 0; block_row < current_shape.width; block_row++) {
+		for (int block_col = 0; block_col < current_shape.width; block_col++) {
+			if (current_shape.array[block_row][block_col]) {
+				Table[current_shape.row + block_row][current_shape.col + block_col] = current_shape.array[block_row][block_col];
 			}
 		}
 	}
 }
 
 static void _change_tetromino() {
-	current = get_random_tetromino();
-	if (!can_put_tetromino(&current)) {
+	current_shape = get_random_tetromino();
+	if (!can_put_tetromino(&current_shape)) {
 		game_on = false;
 	}
 }
@@ -51,7 +51,7 @@ static void _change_tetromino() {
 static void _action_down(Tetromino *temp) {
 	temp->row++;
 	if (can_put_tetromino(temp)) {
-		current.row++;
+		current_shape.row++;
 	} else {
 		_put_tetromino();
 
@@ -72,19 +72,19 @@ static void _action_down(Tetromino *temp) {
 static void _action_left(Tetromino *temp) {
 	temp->col--;
 	if (can_put_tetromino(temp)) {
-		current.col--;
+		current_shape.col--;
 	}
 }
 static void _action_right(Tetromino *temp) {
 	temp->col++;
 	if (can_put_tetromino(temp)) {
-		current.col++;
+		current_shape.col++;
 	}
 }
 static void _action_rotate(Tetromino *temp) {
 	tetromino_rotate(temp);
 	if (can_put_tetromino(temp)) {
-		tetromino_rotate(&current);
+		tetromino_rotate(&current_shape);
 	}
 }
 
@@ -94,8 +94,8 @@ int main() {
 	update_last_exec_time();
 	set_timeout(1);
 
-	current = get_random_tetromino();
-	if (!can_put_tetromino(&current)) {
+	current_shape = get_random_tetromino();
+	if (!can_put_tetromino(&current_shape)) {
 		game_on = false;
 	}
 
@@ -104,7 +104,7 @@ int main() {
 	while (game_on) {
 		int key_input = getch();
 		if (key_input != ERR) {
-			Tetromino temp = current;
+			Tetromino temp = current_shape;
 			switch (key_input) {
 				case ACTION_DOWN:
 					_action_down(&temp);
@@ -123,7 +123,7 @@ int main() {
 		}
 
 		if (hasToUpdate()) {
-			Tetromino temp = current;
+			Tetromino temp = current_shape;
 			_action_down(&temp);
 
 			print_current_table();

@@ -28,7 +28,7 @@ typedef struct {
 extern char Table[ROW_COUNT][COL_COUNT];
 extern int final_score;
 extern suseconds_t time_to_next_frame_us;
-extern Tetromino current;
+extern Tetromino current_shape;
 
 Tetromino get_random_tetromino(void);
 

@@ -36,12 +36,12 @@ void tetromino_rotate(Tetromino *shape) {
 
 void print_current_table() {
 	char Buffer[ROW_COUNT][COL_COUNT] = {0};
-	for (int shape_row = 0; shape_row < current.width; shape_row++) {
-		for (int shape_col = 0; shape_col < current.width; shape_col++) {
-			if (current.array[shape_row][shape_col]) {
-				int board_row = current.row + shape_row;
-				int board_col = current.col + shape_col;
-				Buffer[board_row][board_col] = current.array[shape_row][shape_col];
+	for (int shape_row = 0; shape_row < current_shape.width; shape_row++) {
+		for (int shape_col = 0; shape_col < current_shape.width; shape_col++) {
+			if (current_shape.array[shape_row][shape_col]) {
+				int board_row = current_shape.row + shape_row;
+				int board_col = current_shape.col + shape_col;
+				Buffer[board_row][board_col] = current_shape.array[shape_row][shape_col];
 			}
 		}
 	}
