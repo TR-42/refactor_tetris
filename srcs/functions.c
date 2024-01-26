@@ -1,46 +1,23 @@
 #include <ncurses.h>
-#include <stdlib.h>
 #include <tetris.h>
 
-Tetromino tetromino_clone(Tetromino shape) {
-	Tetromino new_shape = shape;
-	char **copyshape = shape.array;
-	new_shape.array = (char **)malloc(new_shape.width * sizeof(char *));
-	for (int row = 0; row < new_shape.width; row++) {
-		new_shape.array[row] = (char *)malloc(new_shape.width * sizeof(char));
-		for (int col = 0; col < new_shape.width; col++) {
-			new_shape.array[row][col] = copyshape[row][col];
-		}
-	}
-	return new_shape;
-}
-
-void tetromino_dispose(Tetromino shape) {
-	for (int row = 0; row < shape.width; row++) {
-		free(shape.array[row]);
-	}
-	free(shape.array);
-}
-
-bool can_put_tetromino(Tetromino shape) {
-	char **array = shape.array;
-	for (int row = 0; row < shape.width; row++) {
-		for (int col = 0; col < shape.width; col++) {
-			if ((shape.col + col < 0 || shape.col + col >= COL_COUNT || shape.row + row >= ROW_COUNT)) {
-				if (array[row][col])
+bool can_put_tetromino(const Tetromino *shape) {
+	for (int row = 0; row < shape->width; row++) {
+		for (int col = 0; col < shape->width; col++) {
+			if ((shape->col + col < 0 || shape->col + col >= COL_COUNT || shape->row + row >= ROW_COUNT)) {
+				if (shape->array[row][col])
 					return false;
 
-			} else if (Table[shape.row + row][shape.col + col] && array[row][col])
+			} else if (Table[shape->row + row][shape->col + col] && shape->array[row][col])
 				return false;
 		}
 	}
 	return true;
 }
 
-void tetromino_rotate(Tetromino shape) {
-	Tetromino temp = tetromino_clone(shape);
-	int width;
-	width = shape.width;
+void tetromino_rotate(Tetromino *shape) {
+	Tetromino temp = *shape;
+	int width = shape->width;
 	for (
 			int row_old = 0, col_new = 0;
 			row_old < width;
@@ -49,10 +26,9 @@ void tetromino_rotate(Tetromino shape) {
 				int col_old = 0, row_new = width - 1;
 				col_old < width;
 				row_new = width - ++col_old - 1) {
-			shape.array[row_old][col_old] = temp.array[row_new][col_new];
+			shape->array[row_old][col_old] = temp.array[row_new][col_new];
 		}
 	}
-	tetromino_dispose(temp);
 }
 
 void print_current_table() {
@@ -64,7 +40,7 @@ void print_current_table() {
 		}
 	}
 	clear();
-	for (int col = 0; col < COL_COUNT - (sizeof(GAME_TITLE) - 1); col++)
+	for (int col = 0; col < COL_COUNT - ((int)sizeof(GAME_TITLE) - 1); col++)
 		printw(" ");
 	printw(GAME_TITLE "\n");
 	for (int row = 0; row < ROW_COUNT; row++) {

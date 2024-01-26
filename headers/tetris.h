@@ -3,9 +3,10 @@
 #include <stdbool.h>
 #include <sys/time.h>
 
-#define ROW_COUNT 8
-#define COL_COUNT 6
+#define ROW_COUNT 12
+#define COL_COUNT 8
 #define TETROMINO_COUNT 7
+#define BLOCK_COUNT 4
 
 #define CHAR_BLOCK ('#')
 #define CHAR_EMPTY ('.')
@@ -18,8 +19,10 @@
 #define GAME_TITLE "42 Tetris"
 
 typedef struct {
-	char **array;
-	int width, row, col;
+	char array[BLOCK_COUNT][BLOCK_COUNT];
+	int width;
+	int row;
+	int col;
 } Tetromino;
 
 extern char Table[ROW_COUNT][COL_COUNT];
@@ -29,10 +32,8 @@ extern Tetromino current;
 
 Tetromino get_random_tetromino(void);
 
-Tetromino tetromino_clone(Tetromino shape);
-void tetromino_dispose(Tetromino shape);
-bool can_put_tetromino(Tetromino shape);
-void tetromino_rotate(Tetromino shape);
+bool can_put_tetromino(const Tetromino *shape);
+void tetromino_rotate(Tetromino *shape);
 void print_current_table();
 
 void update_last_exec_time();

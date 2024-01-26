@@ -13,7 +13,7 @@ Tetromino current;
 
 static void action_down(Tetromino *temp) {
 	temp->row++;	// move down
-	if (can_put_tetromino(*temp)) {
+	if (can_put_tetromino(temp)) {
 		current.row++;
 	} else {
 		for (int row = 0; row < current.width; row++) {
@@ -44,10 +44,8 @@ static void action_down(Tetromino *temp) {
 
 		final_score += 100 * removed_line_count * COL_COUNT;
 
-		Tetromino new_shape = tetromino_clone(get_random_tetromino());
-		tetromino_dispose(current);
-		current = new_shape;
-		if (!can_put_tetromino(current)) {
+		current = get_random_tetromino();
+		if (!can_put_tetromino(&current)) {
 			game_on = false;
 		}
 	}
@@ -55,20 +53,20 @@ static void action_down(Tetromino *temp) {
 
 static void action_left(Tetromino *temp) {
 	temp->col--;
-	if (can_put_tetromino(*temp)) {
+	if (can_put_tetromino(temp)) {
 		current.col--;
 	}
 }
 static void action_right(Tetromino *temp) {
 	temp->col++;
-	if (can_put_tetromino(*temp)) {
+	if (can_put_tetromino(temp)) {
 		current.col++;
 	}
 }
 static void action_rotate(Tetromino *temp) {
-	tetromino_rotate(*temp);
-	if (can_put_tetromino(*temp)) {
-		tetromino_rotate(current);
+	tetromino_rotate(temp);
+	if (can_put_tetromino(temp)) {
+		tetromino_rotate(&current);
 	}
 }
 
@@ -78,10 +76,8 @@ int main() {
 	update_last_exec_time();
 	set_timeout(1);
 
-	Tetromino new_shape = tetromino_clone(get_random_tetromino());
-	tetromino_dispose(current);
-	current = new_shape;
-	if (!can_put_tetromino(current)) {
+	current = get_random_tetromino();
+	if (!can_put_tetromino(&current)) {
 		game_on = false;
 	}
 
@@ -90,7 +86,7 @@ int main() {
 	while (game_on) {
 		int key_input = getch();
 		if (key_input != ERR) {
-			Tetromino temp = tetromino_clone(current);
+			Tetromino temp = current;
 			switch (key_input) {
 				case ACTION_DOWN:
 					action_down(&temp);
@@ -105,22 +101,18 @@ int main() {
 					action_rotate(&temp);
 					break;
 			}
-
-			tetromino_dispose(temp);
 			print_current_table();
 		}
 
 		if (hasToUpdate()) {
-			Tetromino temp = tetromino_clone(current);
+			Tetromino temp = current;
 			action_down(&temp);
 
-			tetromino_dispose(temp);
 			print_current_table();
 			update_last_exec_time();
 		}
 	}
 
-	tetromino_dispose(current);
 	endwin();
 	for (int row = 0; row < ROW_COUNT; row++) {
 		for (int col = 0; col < COL_COUNT; col++) {
