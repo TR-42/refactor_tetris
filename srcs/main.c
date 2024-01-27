@@ -14,7 +14,7 @@ int main() {
 	update_last_exec_time();
 	set_timeout(1);
 
-	change_tetromino();
+	tetromino_change_current();
 
 	if (is_game_on()) {
 		print_current_table(false);

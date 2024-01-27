@@ -1,5 +1,18 @@
 #include <tetris.h>
 
+static bool game_on = true;
+
+bool is_game_on() {
+	return game_on;
+}
+
+void tetromino_change_current() {
+	current_shape = get_random_tetromino();
+	if (!can_put_tetromino(&current_shape)) {
+		game_on = false;
+	}
+}
+
 bool can_put_tetromino(const Tetromino *shape) {
 	for (int shape_row = 0; shape_row < shape->width; shape_row++) {
 		for (int shape_col = 0; shape_col < shape->width; shape_col++) {

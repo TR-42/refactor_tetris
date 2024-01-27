@@ -32,6 +32,7 @@ extern Tetromino current_shape;
 
 Tetromino get_random_tetromino(void);
 
+void tetromino_change_current();
 bool can_put_tetromino(const Tetromino *shape);
 void tetromino_put_to_table(const Tetromino *shape);
 void tetromino_rotate(Tetromino *shape);
@@ -45,7 +46,6 @@ int hasToUpdate();
 void set_timeout(int time);
 
 bool is_game_on();
-void change_tetromino();
 void action_down(Tetromino *temp);
 void action_left(Tetromino *temp);
 void action_right(Tetromino *temp);

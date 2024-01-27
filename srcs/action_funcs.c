@@ -2,11 +2,6 @@
 
 suseconds_t time_to_next_frame_us = 400000;
 static int frame_time_decrease_on_each_clear_us = 1000;
-static bool game_on = true;
-
-bool is_game_on() {
-	return game_on;
-}
 
 static void _erase_cleared_line(int cleared_line_row) {
 	for (int board_row = cleared_line_row; board_row >= 1; board_row--) {
@@ -28,13 +23,6 @@ static bool _is_row_clearable(int board_row) {
 	return true;
 }
 
-void change_tetromino() {
-	current_shape = get_random_tetromino();
-	if (!can_put_tetromino(&current_shape)) {
-		game_on = false;
-	}
-}
-
 void action_down(Tetromino *temp) {
 	temp->row++;
 	if (can_put_tetromino(temp)) {
@@ -52,7 +40,7 @@ void action_down(Tetromino *temp) {
 			}
 		}
 
-		change_tetromino();
+		tetromino_change_current();
 	}
 }
 
