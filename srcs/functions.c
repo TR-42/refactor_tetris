@@ -89,15 +89,15 @@ static void _set_current_table_chars(
 }
 
 void print_current_table() {
-	static char Buffer[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL] = {0};
+	static char buf[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL] = {0};
 
-	_set_current_table_chars(&Buffer);
+	_set_current_table_chars(&buf);
 
 	clear();
 	for (int col = 0; col < COL_COUNT - ((int)sizeof(GAME_TITLE) - 1); col++) {
 		printw(" ");
 	}
 	printw(GAME_TITLE "\n");
-	printw("%s\n", Buffer);
+	printw("%s\n", buf);
 	printw("\nScore: %d\n", final_score);
 }
