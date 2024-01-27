@@ -8,6 +8,7 @@ SRCS_MAIN	=\
 	main.c\
 
 SRCS_OTHER	=\
+	action_funcs.c\
 	block_factory.c\
 	print_funcs.c\
 	tetromino_funcs.c\

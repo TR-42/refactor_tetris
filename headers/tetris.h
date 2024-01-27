@@ -43,3 +43,10 @@ void update_last_exec_time();
 int hasToUpdate();
 
 void set_timeout(int time);
+
+bool is_game_on();
+void change_tetromino();
+void action_down(Tetromino *temp);
+void action_left(Tetromino *temp);
+void action_right(Tetromino *temp);
+void action_rotate(Tetromino *temp);
