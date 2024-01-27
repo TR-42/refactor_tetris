@@ -31,18 +31,6 @@ static bool _is_row_clearable(int board_row) {
 	return true;
 }
 
-static void _put_tetromino() {
-	for (int block_row = 0; block_row < current_shape.width; block_row++) {
-		for (int block_col = 0; block_col < current_shape.width; block_col++) {
-			if (*tetromino_get_cell_p(&current_shape, block_row, block_col)) {
-				int board_row = current_shape.row + block_row;
-				int board_col = current_shape.col + block_col;
-				*get_table_cell_p(board_row, board_col) = *tetromino_get_cell_p(&current_shape, block_row, block_col);
-			}
-		}
-	}
-}
-
 static void _change_tetromino() {
 	current_shape = get_random_tetromino();
 	if (!can_put_tetromino(&current_shape)) {
@@ -55,7 +43,7 @@ static void _action_down(Tetromino *temp) {
 	if (can_put_tetromino(temp)) {
 		current_shape.row++;
 	} else {
-		_put_tetromino();
+		tetromino_put_to_table(&current_shape);
 
 		for (int board_row_cursor = 0; board_row_cursor < ROW_COUNT; board_row_cursor++) {
 			if (_is_row_clearable(board_row_cursor)) {

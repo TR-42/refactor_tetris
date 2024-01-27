@@ -18,6 +18,18 @@ bool can_put_tetromino(const Tetromino *shape) {
 	return true;
 }
 
+void tetromino_put_to_table(const Tetromino *shape) {
+	for (int block_row = 0; block_row < shape->width; block_row++) {
+		for (int block_col = 0; block_col < shape->width; block_col++) {
+			if (*tetromino_get_cell_p((Tetromino *)shape, block_row, block_col)) {
+				int board_row = shape->row + block_row;
+				int board_col = shape->col + block_col;
+				*get_table_cell_p(board_row, board_col) = *tetromino_get_cell_p((Tetromino *)shape, block_row, block_col);
+			}
+		}
+	}
+}
+
 void tetromino_rotate(Tetromino *shape) {
 	Tetromino temp = *shape;
 	int width = shape->width;
