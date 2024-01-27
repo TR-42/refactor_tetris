@@ -12,17 +12,19 @@ int main() {
 	srand(time(0));
 	initscr();
 	update_last_exec_time();
-	set_timeout(1);
+	set_key_read_timeout(1);
 
 	tetromino_change_current();
 
+	// 最初からゲーム続行不能な場合があるため、その場合は出力を行わない
 	if (is_game_on()) {
 		print_current_table(false);
 	}
 
 	while (is_game_on()) {
 		int key_input = getch();
-		if (key_input != ERR) {
+		bool is_input_available = (key_input != ERR);
+		if (is_input_available) {
 			Tetromino temp = current_shape;
 			switch (key_input) {
 				case ACTION_DOWN:
@@ -41,7 +43,7 @@ int main() {
 			print_current_table(false);
 		}
 
-		if (hasToUpdate()) {
+		if (is_time_to_update()) {
 			Tetromino temp = current_shape;
 			action_down(&temp);
 

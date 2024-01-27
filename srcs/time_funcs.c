@@ -10,11 +10,11 @@ void update_last_exec_time() {
 	gettimeofday(&last_exec_time, NULL);
 }
 
-int hasToUpdate() {
+int is_time_to_update() {
 	gettimeofday(&now, NULL);
 	return time_to_next_frame_us < (TIMEVAL_USEC(now) - TIMEVAL_USEC(last_exec_time));
 }
 
-void set_timeout(int time) {
+void set_key_read_timeout(int time) {
 	timeout(time);
 }

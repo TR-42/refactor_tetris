@@ -41,9 +41,9 @@ char *get_table_cell_p(int row, int col);
 void print_current_table(bool is_final_state);
 
 void update_last_exec_time();
-int hasToUpdate();
+int is_time_to_update();
 
-void set_timeout(int time);
+void set_key_read_timeout(int time);
 
 bool is_game_on();
 void action_down(Tetromino *temp);
