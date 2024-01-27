@@ -99,7 +99,7 @@ int main() {
 		game_on = false;
 	}
 
-	print_current_table();
+	print_current_table(false);
 
 	while (game_on) {
 		int key_input = getch();
@@ -119,26 +119,18 @@ int main() {
 					_action_rotate(&temp);
 					break;
 			}
-			print_current_table();
+			print_current_table(false);
 		}
 
 		if (hasToUpdate()) {
 			Tetromino temp = current_shape;
 			_action_down(&temp);
 
-			print_current_table();
+			print_current_table(false);
 			update_last_exec_time();
 		}
 	}
 
-	endwin();
-	for (int row = 0; row < ROW_COUNT; row++) {
-		for (int col = 0; col < COL_COUNT; col++) {
-			printf("%c ", Table[row][col] ? CHAR_BLOCK : CHAR_EMPTY);
-		}
-		printf("\n");
-	}
-	printf("\nGame over!\n");
-	printf("\nScore: %d\n", final_score);
+	print_current_table(true);
 	return 0;
 }

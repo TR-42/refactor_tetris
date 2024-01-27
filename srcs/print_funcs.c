@@ -3,8 +3,10 @@
 #include <tetris.h>
 
 #define _SIZEOF_CHAR_CELL (2)
+#define BUF_ROW_COUNT (ROW_COUNT)
+#define BUF_COL_COUNT (COL_COUNT * _SIZEOF_CHAR_CELL)
 static void _set_buf_cell(
-		char (*buf)[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL],
+		char (*buf)[BUF_ROW_COUNT][BUF_COL_COUNT],
 		int row,
 		int col,
 		char c
@@ -12,7 +14,7 @@ static void _set_buf_cell(
 	(*buf)[row][col] = c;
 }
 static char _get_buf_cell(
-		char (*buf)[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL],
+		char (*buf)[BUF_ROW_COUNT][BUF_COL_COUNT],
 		int row,
 		int col
 ) {
@@ -20,7 +22,7 @@ static char _get_buf_cell(
 }
 
 static void _set_shape_to_buf(
-		char (*buf)[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL],
+		char (*buf)[BUF_ROW_COUNT][BUF_COL_COUNT],
 		const char *shape,
 		int row,
 		int col,
@@ -42,9 +44,9 @@ static void _set_shape_to_buf(
 }
 
 static void _set_current_table_chars(
-		char (*buf)[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL]
+		char (*buf)[BUF_ROW_COUNT][BUF_COL_COUNT]
 ) {
-	memset(buf, ' ', ROW_COUNT * COL_COUNT * _SIZEOF_CHAR_CELL);
+	memset(buf, ' ', sizeof(*buf));
 
 	_set_shape_to_buf(
 			buf,
@@ -55,31 +57,39 @@ static void _set_current_table_chars(
 			COL_COUNT
 	);
 
-	for (int row = 0; row < (ROW_COUNT - 1); row++) {
-		_set_buf_cell(buf, row, (COL_COUNT * _SIZEOF_CHAR_CELL) - 1, '\n');
+	for (int row = 0; row < (BUF_ROW_COUNT - 1); row++) {
+		_set_buf_cell(buf, row, BUF_COL_COUNT - 1, '\n');
 	}
-	_set_buf_cell(buf, ROW_COUNT - 1, (COL_COUNT * _SIZEOF_CHAR_CELL) - 1, '\0');
+	_set_buf_cell(buf, BUF_ROW_COUNT - 1, BUF_COL_COUNT - 1, '\0');
 }
 
-void print_current_table() {
-	static char buf[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL] = {0};
+void print_current_table(bool is_final_state) {
+	static char buf[BUF_ROW_COUNT][BUF_COL_COUNT] = {0};
 
 	_set_current_table_chars(&buf);
-
-	_set_shape_to_buf(
-			&buf,
-			&(current_shape.array[0][0]),
-			current_shape.row,
-			current_shape.col,
-			current_shape.width,
-			BLOCK_COUNT
-	);
-
-	clear();
-	for (int col = 0; col < COL_COUNT - ((int)sizeof(GAME_TITLE) - 1); col++) {
-		printw(" ");
+	if (!is_final_state) {
+		_set_shape_to_buf(
+				&buf,
+				&(current_shape.array[0][0]),
+				current_shape.row,
+				current_shape.col,
+				current_shape.width,
+				BLOCK_COUNT
+		);
 	}
-	printw(GAME_TITLE "\n");
-	printw("%s\n", buf);
-	printw("\nScore: %d\n", final_score);
+
+	if (is_final_state) {
+		endwin();
+		printf("%s\n", &(buf[0][0]));
+		printf("\nGame over!\n");
+		printf("\nScore: %d\n", final_score);
+	} else {
+		clear();
+		for (int col = 0; col < COL_COUNT - ((int)sizeof(GAME_TITLE) - 1); col++) {
+			printw(" ");
+		}
+		printw(GAME_TITLE "\n");
+		printw("%s\n", &(buf[0][0]));
+		printw("\nScore: %d\n", final_score);
+	}
 }
