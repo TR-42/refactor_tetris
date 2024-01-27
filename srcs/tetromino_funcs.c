@@ -23,7 +23,7 @@ bool can_put_tetromino(const Tetromino *shape) {
 				if (*tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
 					return false;
 				}
-			} else if (*get_table_cell_p(board_row, board_col) && *tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
+			} else if (*get_board_cell_p(board_row, board_col) && *tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
 				return false;
 			}
 		}
@@ -31,13 +31,13 @@ bool can_put_tetromino(const Tetromino *shape) {
 	return true;
 }
 
-void tetromino_put_to_table(const Tetromino *shape) {
+void tetromino_put_to_board(const Tetromino *shape) {
 	for (int block_row = 0; block_row < shape->width; block_row++) {
 		for (int block_col = 0; block_col < shape->width; block_col++) {
 			if (*tetromino_get_cell_p((Tetromino *)shape, block_row, block_col)) {
 				int board_row = shape->row + block_row;
 				int board_col = shape->col + block_col;
-				*get_table_cell_p(board_row, board_col) = *tetromino_get_cell_p((Tetromino *)shape, block_row, block_col);
+				*get_board_cell_p(board_row, board_col) = *tetromino_get_cell_p((Tetromino *)shape, block_row, block_col);
 			}
 		}
 	}
@@ -65,6 +65,6 @@ char *tetromino_get_cell_p(Tetromino *shape, int row, int col) {
 	return &(shape->array[row][col]);
 }
 
-char *get_table_cell_p(int row, int col) {
-	return &(Table[row][col]);
+char *get_board_cell_p(int row, int col) {
+	return &(board_state[row][col]);
 }

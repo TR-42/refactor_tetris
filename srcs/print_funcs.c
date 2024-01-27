@@ -52,14 +52,14 @@ static void _set_shape_to_buf(
 	}
 }
 
-static void _set_current_table_chars(
+static void _set_current_board_chars(
 		char (*buf)[BUF_ROW_COUNT][BUF_COL_COUNT]
 ) {
 	memset(buf, ' ', sizeof(*buf));
 
 	_set_shape_to_buf(
 			buf,
-			get_table_cell_p(0, 0),
+			get_board_cell_p(0, 0),
 			0,
 			0,
 			ROW_COUNT,
@@ -72,10 +72,10 @@ static void _set_current_table_chars(
 	_set_buf_cell(buf, BUF_ROW_COUNT - 1, BUF_COL_COUNT - 1, '\0');
 }
 
-void print_current_table(bool is_final_state) {
+void print_current_board(bool is_final_state) {
 	static char buf[BUF_ROW_COUNT][BUF_COL_COUNT] = {0};
 
-	_set_current_table_chars(&buf);
+	_set_current_board_chars(&buf);
 	if (!is_final_state) {
 		_set_shape_to_buf(
 				&buf,

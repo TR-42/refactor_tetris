@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <tetris.h>
 
-char Table[ROW_COUNT][COL_COUNT] = {0};
+char board_state[ROW_COUNT][COL_COUNT] = {0};
 int final_score = 0;
 
 Tetromino current_shape;
@@ -18,7 +18,7 @@ int main() {
 
 	// 最初からゲーム続行不能な場合があるため、その場合は出力を行わない
 	if (is_game_on()) {
-		print_current_table(false);
+		print_current_board(false);
 	}
 
 	while (is_game_on()) {
@@ -40,18 +40,18 @@ int main() {
 					action_rotate(&temp);
 					break;
 			}
-			print_current_table(false);
+			print_current_board(false);
 		}
 
 		if (is_time_to_update()) {
 			Tetromino temp = current_shape;
 			action_down(&temp);
 
-			print_current_table(false);
+			print_current_board(false);
 			update_last_exec_time();
 		}
 	}
 
-	print_current_table(true);
+	print_current_board(true);
 	return 0;
 }

@@ -25,7 +25,7 @@ typedef struct {
 	int col;
 } Tetromino;
 
-extern char Table[ROW_COUNT][COL_COUNT];
+extern char board_state[ROW_COUNT][COL_COUNT];
 extern int final_score;
 extern suseconds_t time_to_next_frame_us;
 extern Tetromino current_shape;
@@ -34,11 +34,11 @@ Tetromino get_random_tetromino(void);
 
 void tetromino_change_current();
 bool can_put_tetromino(const Tetromino *shape);
-void tetromino_put_to_table(const Tetromino *shape);
+void tetromino_put_to_board(const Tetromino *shape);
 void tetromino_rotate(Tetromino *shape);
 char *tetromino_get_cell_p(Tetromino *shape, int row, int col);
-char *get_table_cell_p(int row, int col);
-void print_current_table(bool is_final_state);
+char *get_board_cell_p(int row, int col);
+void print_current_board(bool is_final_state);
 
 void update_last_exec_time();
 int is_time_to_update();
