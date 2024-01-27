@@ -73,7 +73,7 @@ static void _set_current_board_chars(
 }
 
 void print_current_board(bool is_final_state) {
-	static char buf[BUF_ROW_COUNT][BUF_COL_COUNT] = {0};
+	char buf[BUF_ROW_COUNT][BUF_COL_COUNT] = {0};
 
 	_set_current_board_chars(&buf);
 	if (!is_final_state) {
