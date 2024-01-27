@@ -30,10 +30,19 @@ static void _set_shape_to_buf(
 		int width
 ) {
 	for (int shape_cursor_row = 0; shape_cursor_row < height; shape_cursor_row++) {
+		int buf_row = row + shape_cursor_row;
+		bool is_buf_row_in_range = (0 <= buf_row && buf_row < BUF_ROW_COUNT);
+		if (!is_buf_row_in_range) {
+			continue;
+		}
 		for (int shape_cursor_col = 0; shape_cursor_col < width; shape_cursor_col++) {
-			int shape_index = (shape_cursor_row * width) + shape_cursor_col;
-			int buf_row = row + shape_cursor_row;
 			int buf_col = (col + shape_cursor_col) * _SIZEOF_CHAR_CELL;
+			bool is_buf_col_in_range = (0 <= buf_col && buf_col < BUF_COL_COUNT);
+			if (!is_buf_col_in_range) {
+				continue;
+			}
+
+			int shape_index = (shape_cursor_row * width) + shape_cursor_col;
 			if (shape[shape_index]) {
 				_set_buf_cell(buf, buf_row, buf_col, CHAR_BLOCK);
 			} else if (_get_buf_cell(buf, buf_row, buf_col) != CHAR_BLOCK) {
