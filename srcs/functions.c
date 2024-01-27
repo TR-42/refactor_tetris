@@ -5,11 +5,12 @@ bool can_put_tetromino(const Tetromino *shape) {
 		for (int shape_col = 0; shape_col < shape->width; shape_col++) {
 			int board_col = shape->col + shape_col;
 			int board_row = shape->row + shape_row;
-			if ((board_col < 0 || COL_COUNT <= board_col || ROW_COUNT <= board_row)) {
-				if (shape->array[shape_row][shape_col]) {
+			bool is_board_row_col_out_of_range = (board_col < 0 || COL_COUNT <= board_col || ROW_COUNT <= board_row);
+			if (is_board_row_col_out_of_range) {
+				if (*tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
 					return false;
 				}
-			} else if (Table[board_row][board_col] && shape->array[shape_row][shape_col]) {
+			} else if (*get_table_cell_p(board_col, board_col) && *tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
 				return false;
 			}
 		}
@@ -30,7 +31,15 @@ void tetromino_rotate(Tetromino *shape) {
 				col_old < width;
 				row_new = width - ++col_old - 1
 		) {
-			shape->array[row_old][col_old] = temp.array[row_new][col_new];
+			*tetromino_get_cell_p(shape, row_old, col_old) = *tetromino_get_cell_p(&temp, row_new, col_new);
 		}
 	}
+}
+
+char *tetromino_get_cell_p(Tetromino *shape, int row, int col) {
+	return &(shape->array[row][col]);
+}
+
+char *get_table_cell_p(int row, int col) {
+	return &(Table[row][col]);
 }

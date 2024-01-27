@@ -14,17 +14,17 @@ Tetromino current_shape;
 static void _erase_cleared_line(int cleared_line_row) {
 	for (int board_row = cleared_line_row; board_row >= 1; board_row--) {
 		for (int board_col = 0; board_col < COL_COUNT; board_col++) {
-			Table[board_row][board_col] = Table[board_row - 1][board_col];
+			*get_table_cell_p(board_row, board_col) = *get_table_cell_p(board_row - 1, board_col);
 		}
 	}
 	for (int board_col = 0; board_col < COL_COUNT; board_col++) {
-		Table[0][board_col] = 0;
+		*get_table_cell_p(0, board_col) = 0;
 	}
 }
 
 static bool _is_row_clearable(int board_row) {
 	for (int board_col = 0; board_col < COL_COUNT; board_col++) {
-		if (!Table[board_row][board_col]) {
+		if (!*get_table_cell_p(board_row, board_col)) {
 			return false;
 		}
 	}
@@ -34,8 +34,10 @@ static bool _is_row_clearable(int board_row) {
 static void _put_tetromino() {
 	for (int block_row = 0; block_row < current_shape.width; block_row++) {
 		for (int block_col = 0; block_col < current_shape.width; block_col++) {
-			if (current_shape.array[block_row][block_col]) {
-				Table[current_shape.row + block_row][current_shape.col + block_col] = current_shape.array[block_row][block_col];
+			if (*tetromino_get_cell_p(&current_shape, block_row, block_col)) {
+				int board_row = current_shape.row + block_row;
+				int board_col = current_shape.col + block_col;
+				*get_table_cell_p(board_row, board_col) = *tetromino_get_cell_p(&current_shape, block_row, block_col);
 			}
 		}
 	}

@@ -34,6 +34,8 @@ Tetromino get_random_tetromino(void);
 
 bool can_put_tetromino(const Tetromino *shape);
 void tetromino_rotate(Tetromino *shape);
+char *tetromino_get_cell_p(Tetromino *shape, int row, int col);
+char *get_table_cell_p(int row, int col);
 void print_current_table(bool is_final_state);
 
 void update_last_exec_time();

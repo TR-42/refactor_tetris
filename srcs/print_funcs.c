@@ -59,7 +59,7 @@ static void _set_current_table_chars(
 
 	_set_shape_to_buf(
 			buf,
-			&(Table[0][0]),
+			get_table_cell_p(0, 0),
 			0,
 			0,
 			ROW_COUNT,
@@ -79,7 +79,7 @@ void print_current_table(bool is_final_state) {
 	if (!is_final_state) {
 		_set_shape_to_buf(
 				&buf,
-				&(current_shape.array[0][0]),
+				tetromino_get_cell_p(&current_shape, 0, 0),
 				current_shape.row,
 				current_shape.col,
 				current_shape.width,
