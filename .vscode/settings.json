@@ -1,5 +1,4 @@
 {
-  "C_Cpp.clang_format_style": "{BasedOnStyle: Google, UseTab: Always, IndentWidth: 2, TabWidth: 2, ColumnLimit: 0}",
   "cSpell.words": ["Tetris", "Tetromino"],
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true
