@@ -10,6 +10,7 @@ SRCS_MAIN	=\
 SRCS_OTHER	=\
 	block_factory.c\
 	functions.c\
+	print_funcs.c\
 	utils.c\
 
 SRC_FILES	=\
