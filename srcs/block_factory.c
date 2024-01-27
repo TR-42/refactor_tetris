@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <tetris.h>
 
 // clang-format off
@@ -66,6 +67,7 @@ Tetromino get_random_tetromino(void) {
 	TetrominoTemplate next_shape_template = TetrominoTemplateArray[rand() % TETROMINO_COUNT];
 	Tetromino next_shape;
 
+	memset(&next_shape, 0, sizeof(Tetromino));
 	for (int row = 0; row < next_shape_template.width; row++) {
 		for (int col = 0; col < next_shape_template.width; col++) {
 			next_shape.array[row][col] = next_shape_template.pattern[row][col];
