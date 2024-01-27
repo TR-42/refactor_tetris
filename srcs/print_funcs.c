@@ -23,7 +23,7 @@ static char _get_buf_cell(
 
 static void _set_shape_to_buf(
 		char (*buf)[BUF_ROW_COUNT][BUF_COL_COUNT],
-		const char *shape,
+		const bool *shape,
 		int row,
 		int col,
 		int height,

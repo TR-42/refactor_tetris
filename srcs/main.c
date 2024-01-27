@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <tetris.h>
 
-char board_state[ROW_COUNT][COL_COUNT] = {0};
+bool board_state[ROW_COUNT][COL_COUNT] = {0};
 int final_score = 0;
 
 Tetromino current_shape;

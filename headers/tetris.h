@@ -19,13 +19,13 @@
 #define GAME_TITLE "42 Tetris"
 
 typedef struct {
-	char array[BLOCK_COUNT][BLOCK_COUNT];
+	bool array[BLOCK_COUNT][BLOCK_COUNT];
 	int width;
 	int row;
 	int col;
 } Tetromino;
 
-extern char board_state[ROW_COUNT][COL_COUNT];
+extern bool board_state[ROW_COUNT][COL_COUNT];
 extern int final_score;
 extern suseconds_t time_to_next_frame_us;
 extern Tetromino current_shape;
@@ -36,8 +36,8 @@ void tetromino_change_current();
 bool can_put_tetromino(const Tetromino *shape);
 void tetromino_put_to_board(const Tetromino *shape);
 void tetromino_rotate(Tetromino *shape);
-char *tetromino_get_cell_p(Tetromino *shape, int row, int col);
-char *get_board_cell_p(int row, int col);
+bool *tetromino_get_cell_p(Tetromino *shape, int row, int col);
+bool *get_board_cell_p(int row, int col);
 void print_current_board(bool is_final_state);
 
 void update_last_exec_time();

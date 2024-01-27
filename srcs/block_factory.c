@@ -4,23 +4,23 @@
 
 // clang-format off
 // ref: https://gist.github.com/aprell/3722962
-#define ROWS_COUNT(...) (sizeof((char *[]){ __VA_ARGS__ }) / sizeof(char *))
-#define ROW_GEN(...) (char []){ __VA_ARGS__ }
+#define ROWS_COUNT(...) (sizeof((bool *[]){ __VA_ARGS__ }) / sizeof(bool *))
+#define ROW_GEN(...) (bool []){ __VA_ARGS__ }
 #define BLOCK_GEN(...) \
 	(\
 		(TetrominoTemplate){\
-			.pattern = ((char *[]){\
+			.pattern = ((bool *[]){\
 				__VA_ARGS__\
 			}),\
 			.width = ROWS_COUNT(__VA_ARGS__),\
 		}\
 	)
 
-#define X 1
-#define _ 0
+#define X true
+#define _ false
 
 typedef struct {
-	char **pattern;
+	bool **pattern;
 	int width;
 } TetrominoTemplate;
 

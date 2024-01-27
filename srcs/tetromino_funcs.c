@@ -61,10 +61,10 @@ void tetromino_rotate(Tetromino *shape) {
 	}
 }
 
-char *tetromino_get_cell_p(Tetromino *shape, int row, int col) {
+bool *tetromino_get_cell_p(Tetromino *shape, int row, int col) {
 	return &(shape->array[row][col]);
 }
 
-char *get_board_cell_p(int row, int col) {
+bool *get_board_cell_p(int row, int col) {
 	return &(board_state[row][col]);
 }
