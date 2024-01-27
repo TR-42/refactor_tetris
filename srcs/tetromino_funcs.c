@@ -5,7 +5,7 @@ bool can_put_tetromino(const Tetromino *shape) {
 		for (int shape_col = 0; shape_col < shape->width; shape_col++) {
 			int board_col = shape->col + shape_col;
 			int board_row = shape->row + shape_row;
-			bool is_board_row_col_out_of_range = (board_col < 0 || COL_COUNT <= board_col || ROW_COUNT <= board_row);
+			bool is_board_row_col_out_of_range = (board_col < 0 || COL_COUNT <= board_col || board_row < 0 || ROW_COUNT <= board_row);
 			if (is_board_row_col_out_of_range) {
 				if (*tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
 					return false;
