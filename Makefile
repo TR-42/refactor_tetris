@@ -9,9 +9,9 @@ SRCS_MAIN	=\
 
 SRCS_OTHER	=\
 	block_factory.c\
-	functions.c\
 	print_funcs.c\
-	utils.c\
+	tetromino_funcs.c\
+	time_funcs.c\
 
 SRC_FILES	=\
 	$(SRCS_MAIN)\
