@@ -63,6 +63,6 @@ void action_right(Tetromino *temp) {
 void action_rotate(Tetromino *temp) {
 	tetromino_rotate(temp);
 	if (can_put_tetromino(temp)) {
-		tetromino_rotate(&current_shape);
+		current_shape = *temp;
 	}
 }
