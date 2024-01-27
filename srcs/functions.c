@@ -38,6 +38,22 @@ void tetromino_rotate(Tetromino *shape) {
 }
 
 #define _SIZEOF_CHAR_CELL (2)
+static void _set_buf_cell(
+		char (*buf)[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL],
+		int row,
+		int col,
+		char c
+) {
+	(*buf)[row][col] = c;
+}
+static char _get_buf_cell(
+		char (*buf)[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL],
+		int row,
+		int col
+) {
+	return (*buf)[row][col];
+}
+
 static void _set_shape_to_buf(
 		char (*buf)[ROW_COUNT][COL_COUNT * _SIZEOF_CHAR_CELL],
 		const char *shape,
@@ -52,9 +68,9 @@ static void _set_shape_to_buf(
 			int buf_row = row + shape_cursor_row;
 			int buf_col = (col + shape_cursor_col) * _SIZEOF_CHAR_CELL;
 			if (shape[shape_index]) {
-				(*buf)[buf_row][buf_col] = CHAR_BLOCK;
-			} else if ((*buf)[buf_row][buf_col] != CHAR_BLOCK) {
-				(*buf)[buf_row][buf_col] = CHAR_EMPTY;
+				_set_buf_cell(buf, buf_row, buf_col, CHAR_BLOCK);
+			} else if (_get_buf_cell(buf, buf_row, buf_col) != CHAR_BLOCK) {
+				_set_buf_cell(buf, buf_row, buf_col, CHAR_EMPTY);
 			}
 		}
 	}
@@ -83,9 +99,9 @@ static void _set_current_table_chars(
 	);
 
 	for (int row = 0; row < (ROW_COUNT - 1); row++) {
-		(*buf)[row][(COL_COUNT * _SIZEOF_CHAR_CELL) - 1] = '\n';
+		_set_buf_cell(buf, row, (COL_COUNT * _SIZEOF_CHAR_CELL) - 1, '\n');
 	}
-	(*buf)[ROW_COUNT - 1][(COL_COUNT * _SIZEOF_CHAR_CELL) - 1] = '\0';
+	_set_buf_cell(buf, ROW_COUNT - 1, (COL_COUNT * _SIZEOF_CHAR_CELL) - 1, '\0');
 }
 
 void print_current_table() {
