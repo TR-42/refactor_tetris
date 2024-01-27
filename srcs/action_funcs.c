@@ -23,6 +23,18 @@ static bool _is_row_clearable(int board_row) {
 	return true;
 }
 
+static void _erase_clearable_lines() {
+	for (int board_row_cursor = 0; board_row_cursor < ROW_COUNT; board_row_cursor++) {
+		if (_is_row_clearable(board_row_cursor)) {
+			_erase_cleared_line(board_row_cursor);
+			if (0 < frame_time_decrease_on_each_clear_us) {
+				time_to_next_frame_us -= frame_time_decrease_on_each_clear_us--;
+			}
+			final_score += 100 * COL_COUNT;
+		}
+	}
+}
+
 void action_down(Tetromino *temp) {
 	temp->row++;
 	if (can_put_tetromino(temp)) {
@@ -30,15 +42,7 @@ void action_down(Tetromino *temp) {
 	} else {
 		tetromino_put_to_table(&current_shape);
 
-		for (int board_row_cursor = 0; board_row_cursor < ROW_COUNT; board_row_cursor++) {
-			if (_is_row_clearable(board_row_cursor)) {
-				_erase_cleared_line(board_row_cursor);
-				if (0 < frame_time_decrease_on_each_clear_us) {
-					time_to_next_frame_us -= frame_time_decrease_on_each_clear_us--;
-				}
-				final_score += 100 * COL_COUNT;
-			}
-		}
+		_erase_clearable_lines();
 
 		tetromino_change_current();
 	}
