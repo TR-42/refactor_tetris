@@ -10,7 +10,7 @@ bool can_put_tetromino(const Tetromino *shape) {
 				if (*tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
 					return false;
 				}
-			} else if (*get_table_cell_p(board_col, board_col) && *tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
+			} else if (*get_table_cell_p(board_row, board_col) && *tetromino_get_cell_p((Tetromino *)shape, shape_row, shape_col)) {
 				return false;
 			}
 		}
