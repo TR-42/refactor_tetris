@@ -57,8 +57,6 @@ static void _set_shape_to_buf(
 static void _set_current_board_chars(
 		char (*buf)[BUF_ROW_COUNT][BUF_COL_COUNT]
 ) {
-	memset(buf, ' ', sizeof(*buf));
-
 	_set_shape_to_buf(
 			buf,
 			get_board_cell_p(0, 0),
@@ -75,8 +73,9 @@ static void _set_current_board_chars(
 }
 
 void print_current_board(bool is_final_state) {
-	char buf[BUF_ROW_COUNT][BUF_COL_COUNT] = {0};
+	char buf[BUF_ROW_COUNT][BUF_COL_COUNT];
 
+	memset(buf, ' ', sizeof(buf));
 	_set_current_board_chars(&buf);
 	if (!is_final_state) {
 		_set_shape_to_buf(
