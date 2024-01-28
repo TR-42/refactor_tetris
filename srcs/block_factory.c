@@ -1,6 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tetris.h>
+#include <tetromino.h>
+#include <tetromino_funcs.h>
+
+#define TETROMINO_COUNT 7
 
 // clang-format off
 // ref: https://gist.github.com/aprell/3722962

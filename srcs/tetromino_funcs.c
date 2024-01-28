@@ -1,4 +1,6 @@
 #include <tetris.h>
+#include <tetromino.h>
+#include <tetromino_funcs.h>
 
 static bool game_on = true;
 

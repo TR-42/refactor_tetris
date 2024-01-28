@@ -1,7 +1,12 @@
+#include <action_funcs.h>
 #include <ncurses.h>
+#include <print_funcs.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <tetris.h>
+#include <tetromino.h>
+#include <tetromino_funcs.h>
+#include <time_funcs.h>
 
 bool board_state[ROW_COUNT][COL_COUNT] = {0};
 int final_score = 0;

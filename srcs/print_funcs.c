@@ -1,6 +1,8 @@
 #include <ncurses.h>
+#include <print_funcs.h>
 #include <string.h>
 #include <tetris.h>
+#include <tetromino_funcs.h>
 
 #define _SIZEOF_CHAR_CELL (2)
 #define BUF_ROW_COUNT (ROW_COUNT)

@@ -1,4 +1,7 @@
+#include <action_funcs.h>
 #include <tetris.h>
+#include <tetromino.h>
+#include <tetromino_funcs.h>
 
 suseconds_t time_to_next_frame_us = 400000;
 static int frame_time_decrease_on_each_clear_us = 1000;
