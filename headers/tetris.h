@@ -5,8 +5,8 @@
 
 #include "tetromino.h"
 
-#define ROW_COUNT 12
-#define COL_COUNT 8
+#define ROW_COUNT 20
+#define COL_COUNT 15
 
 #define GAME_TITLE "42 Tetris"
 
