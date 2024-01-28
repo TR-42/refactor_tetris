@@ -3,17 +3,19 @@
 #include <print_funcs.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include <tetris.h>
 #include <tetromino.h>
 #include <tetromino_funcs.h>
 #include <time_funcs.h>
 
-bool board_state[ROW_COUNT][COL_COUNT] = {0};
+bool board_state[ROW_COUNT][COL_COUNT];
 int final_score = 0;
 
 Tetromino current_shape;
 
 int main() {
+	memset(board_state, false, sizeof(board_state));
 	srand(time(0));
 	initscr();
 	update_last_exec_time();
